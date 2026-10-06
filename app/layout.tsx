@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ACCENT, DARK_BG, PRIMARY_BLUE, SITE } from "@/lib/config";
+import NuevaContrasena from "@/components/NuevaContrasena";
 import "./globals.css";
 
 const texto = Inter({
@@ -35,7 +36,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="es" className={texto.variable} style={colores}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <NuevaContrasena />
+      </body>
     </html>
   );
 }

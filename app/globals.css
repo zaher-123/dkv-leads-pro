@@ -917,3 +917,20 @@ p {
     transition: none !important;
   }
 }
+
+/* Formulario de nueva contraseña tras el enlace de recuperación. */
+.nueva-contrasena {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  background: rgba(10, 31, 61, 0.6);
+}
+
+.nueva-contrasena__caja {
+  width: 100%;
+  max-width: 440px;
+  padding: 36px;
+}
