@@ -89,12 +89,27 @@ export default function Admin() {
     setEnviando(true);
     setError("");
     const datos = new FormData(evento.currentTarget);
-    const { error: errorLogin } = await supabaseBrowser.auth.signInWithPassword({
-      email: String(datos.get("email") ?? "").trim(),
-      password: String(datos.get("password") ?? ""),
-    });
-    setEnviando(false);
-    if (errorLogin) setError("Correo o contraseña no válidos.");
+    try {
+      const { error: errorLogin } = await supabaseBrowser.auth.signInWithPassword({
+        email: String(datos.get("email") ?? "").trim(),
+        password: String(datos.get("password") ?? ""),
+      });
+      if (errorLogin) {
+        // Error exacto de Supabase: mensaje, código y estado HTTP, sin ocultarlos.
+        console.error("Error de login de Supabase:", errorLogin);
+        setError(
+          `Supabase devolvió: "${errorLogin.message}" (código: ${errorLogin.code ?? "sin código"}, estado HTTP: ${errorLogin.status ?? "sin estado"}).`,
+        );
+      }
+    } catch (excepcion) {
+      // Fallos antes de recibir respuesta, como red bloqueada o CORS.
+      console.error("Excepción al llamar a Supabase:", excepcion);
+      setError(
+        `No se pudo contactar con Supabase: ${excepcion instanceof Error ? excepcion.message : String(excepcion)}.`,
+      );
+    } finally {
+      setEnviando(false);
+    }
   }
 
   async function salir() {
