@@ -27,9 +27,10 @@ export default function Privacidad() {
 
         <h2>Qué datos tratamos</h2>
         <p>
-          Cuando pides presupuesto, tratamos: nombre, número de móvil, edad,
-          código postal, producto que te interesa y tu consentimiento. No
-          tratamos datos de salud a través de este formulario.
+          Cuando pides presupuesto, tratamos: nombre, apellidos, localidad,
+          código postal, fecha de nacimiento, correo electrónico, número de
+          móvil, el seguro que te interesa y tu consentimiento. No tratamos
+          datos de salud a través de este formulario.
         </p>
 
         <h2>Para qué los usamos</h2>

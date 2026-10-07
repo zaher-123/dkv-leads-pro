@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import { formOptions } from "@/lib/config";
+import { calcularEdad } from "@/lib/validation";
 
 const ESTADOS = ["nuevo", "contactado", "propuesta", "cerrado"] as const;
 type Estado = (typeof ESTADOS)[number];
@@ -11,9 +12,12 @@ type Estado = (typeof ESTADOS)[number];
 type Lead = {
   id: string;
   nombre: string;
+  apellidos: string;
+  localidad: string;
+  codigo_postal: string;
+  fecha_nacimiento: string;
+  email: string;
   whatsapp: string;
-  edad: number;
-  cp: string;
   producto: string;
   origen: string;
   estado: Estado;
@@ -61,7 +65,9 @@ export default function Admin() {
     let activo = true;
     supabaseBrowser
       .from("leads")
-      .select("id, nombre, whatsapp, edad, cp, producto, origen, estado, created_at")
+      .select(
+        "id, nombre, apellidos, localidad, codigo_postal, fecha_nacimiento, email, whatsapp, producto, origen, estado, created_at",
+      )
       .order("created_at", { ascending: false })
       .then(({ data, error: errorCarga }) => {
         if (!activo) return;
@@ -195,9 +201,13 @@ export default function Admin() {
               <tr>
                 <th>Fecha</th>
                 <th>Nombre</th>
+                <th>Apellidos</th>
                 <th>WhatsApp</th>
-                <th>Edad</th>
+                <th>Email</th>
+                <th>Localidad</th>
                 <th>CP</th>
+                <th>Nacimiento</th>
+                <th>Edad</th>
                 <th>Producto</th>
                 <th>Origen</th>
                 <th>Estado</th>
@@ -208,13 +218,19 @@ export default function Admin() {
                 <tr key={l.id}>
                   <td>{new Date(l.created_at).toLocaleString("es-ES", { timeZone: "Europe/Madrid" })}</td>
                   <td>{l.nombre}</td>
+                  <td>{l.apellidos}</td>
                   <td>
                     <a href={`https://wa.me/34${l.whatsapp}`} target="_blank" rel="noopener noreferrer">
                       {l.whatsapp}
                     </a>
                   </td>
-                  <td>{l.edad}</td>
-                  <td>{l.cp}</td>
+                  <td>
+                    <a href={`mailto:${l.email}`}>{l.email}</a>
+                  </td>
+                  <td>{l.localidad}</td>
+                  <td>{l.codigo_postal}</td>
+                  <td>{new Date(`${l.fecha_nacimiento}T00:00:00`).toLocaleDateString("es-ES")}</td>
+                  <td>{calcularEdad(l.fecha_nacimiento)}</td>
                   <td>{ETIQUETA_PRODUCTO[l.producto] ?? l.producto}</td>
                   <td>{l.origen}</td>
                   <td>
@@ -234,7 +250,7 @@ export default function Admin() {
               ))}
               {leads.length === 0 && (
                 <tr>
-                  <td colSpan={8}>Todavía no hay leads.</td>
+                  <td colSpan={12}>Todavía no hay leads.</td>
                 </tr>
               )}
             </tbody>

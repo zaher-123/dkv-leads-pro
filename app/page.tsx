@@ -1,7 +1,7 @@
-import Contador from "@/components/Contador";
 import IconoProducto from "@/components/IconoProducto";
 import LeadForm from "@/components/LeadForm";
-import { SITE, TEXTOS, WHATSAPP_URL, cifras, precioTexto, productos } from "@/lib/config";
+import { SITE, TEXTOS, WHATSAPP_URL, cifras, productos } from "@/lib/config";
+import Contador from "@/components/Contador";
 
 const anio = new Date().getFullYear();
 
@@ -14,33 +14,35 @@ export default function Home() {
             {SITE.nombre}
           </a>
           <nav className="nav__enlaces" aria-label="Principal">
-            <a href="#productos">Seguros</a>
-            <a href="#como-funciona">Cómo funciona</a>
-            <a href="#preguntas">Preguntas</a>
+            {TEXTOS.nav.enlaces.map((enlace) => (
+              <a key={enlace.href} href={enlace.href}>
+                {enlace.label}
+              </a>
+            ))}
           </nav>
           <a href="#presupuesto" className="boton boton--pequeno">
-            Hablemos
+            {TEXTOS.nav.cta}
           </a>
         </div>
       </header>
 
       <main>
-        {/* 1. Hero: claro, con gradiente de azul a blanco */}
+        {/* 1. Hero: claro */}
         <section className="seccion hero" id="inicio">
           <div className="contenedor">
             <h1 className="titular titular--xl reveal">{TEXTOS.hero.titular}</h1>
             <p className="subtitular reveal">{TEXTOS.hero.subtitulo}</p>
 
             <div className="hero__acciones reveal">
-              <a href={WHATSAPP_URL} className="boton" target="_blank" rel="noopener noreferrer">
-                Escríbeme por WhatsApp
+              <a href="#presupuesto" className="boton">
+                {TEXTOS.hero.botonPrincipal}
               </a>
-              <a href="#presupuesto" className="boton boton--linea">
-                Pedir presupuesto
+              <a href={WHATSAPP_URL} className="boton boton--oliva" target="_blank" rel="noopener noreferrer">
+                {TEXTOS.hero.botonSecundario}
               </a>
             </div>
 
-            <p className="hero__legal">{SITE.estatus}</p>
+            <p className="hero__legal">{TEXTOS.hero.microtexto}</p>
           </div>
         </section>
 
@@ -64,9 +66,8 @@ export default function Home() {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                  <p className="tarjeta__precio">{precioTexto(producto.price)}</p>
-                  <a href="#presupuesto" className="boton boton--linea tarjeta__accion">
-                    Pedir presupuesto
+                  <a href="#presupuesto" className="boton boton--oliva tarjeta__accion">
+                    {TEXTOS.productos.boton}
                   </a>
                 </article>
               ))}
@@ -126,11 +127,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 6. Independencia: oscuro */}
+        {/* 6. Confianza: oscuro */}
         <section className="seccion seccion--oscuro">
           <div className="contenedor reveal">
-            <h2 className="titular">{TEXTOS.independencia.titulo}</h2>
-            <p className="independencia__texto">{TEXTOS.independencia.texto}</p>
+            <h2 className="titular">{TEXTOS.confianza.titulo}</h2>
+            <p className="confianza__texto">{TEXTOS.confianza.texto}</p>
           </div>
         </section>
 
@@ -152,23 +153,18 @@ export default function Home() {
         {/* 8. Cierre: oscuro */}
         <section className="seccion seccion--oscuro cierre">
           <div className="contenedor reveal">
-            <h2 className="titular">{TEXTOS.cierre}</h2>
+            <h2 className="titular">{TEXTOS.cierre.titulo}</h2>
             <a href="#presupuesto" className="boton">
-              Pedir presupuesto
+              {TEXTOS.cierre.boton}
             </a>
+            <p className="hero__legal">{TEXTOS.cierre.microtexto}</p>
           </div>
         </section>
       </main>
 
       <footer className="pie">
         <div className="contenedor">
-          <p>
-            {SITE.nombre}. {SITE.estatus}.
-          </p>
-          {SITE.registro && <p>Registro de mediadores nº {SITE.registro}.</p>}
-          <p>
-            No soy DKV ni actúo en su nombre. Las coberturas y condiciones dependen de cada póliza.
-          </p>
+          <p>{SITE.legalTexto}</p>
           <div className="pie__enlaces">
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
             <a href={`tel:${SITE.telefono.replace(/\s/g, "")}`}>{SITE.telefono}</a>

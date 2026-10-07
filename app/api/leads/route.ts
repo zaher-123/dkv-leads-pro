@@ -32,9 +32,12 @@ export async function POST(request: Request) {
 
   const { error } = await supabase.from("leads").insert({
     nombre: parsed.data.nombre,
+    apellidos: parsed.data.apellidos,
+    localidad: parsed.data.localidad,
+    codigo_postal: parsed.data.codigo_postal,
+    fecha_nacimiento: parsed.data.fecha_nacimiento,
+    email: parsed.data.email,
     whatsapp: normalizarWhatsapp(parsed.data.whatsapp),
-    edad: parsed.data.edad,
-    cp: parsed.data.cp,
     producto: parsed.data.producto,
     origen: parsed.data.origen,
     consentimiento: parsed.data.consentimiento,

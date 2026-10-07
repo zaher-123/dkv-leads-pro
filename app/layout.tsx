@@ -1,18 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ACCENT, DARK_BG, PRIMARY_BLUE, SITE } from "@/lib/config";
+import { Inter, Poppins } from "next/font/google";
+import { CREMA, SITE, TEXTOS, VERDE_BOSQUE, VERDE_LIMON, VERDE_OLIVA } from "@/lib/config";
 import NuevaContrasena from "@/components/NuevaContrasena";
 import "./globals.css";
 
 const texto = Inter({
   variable: "--font-texto",
   subsets: ["latin"],
-  weight: ["500", "600", "800"],
+  weight: ["400", "500", "600"],
 });
 
-const titulo = `${SITE.nombre} · Seguros de salud y decesos`;
-const descripcion =
-  "Comparo las coberturas de DKV contigo y te explico cada punto antes de decidir. Sin letra pequeña.";
+const titulos = Poppins({
+  variable: "--font-titulos",
+  subsets: ["latin"],
+  weight: ["700", "800"],
+});
+
+const titulo = `${SITE.nombre} · ${SITE.estatus}`;
+const descripcion = TEXTOS.hero.subtitulo;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -29,13 +34,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   // Colores de marca desde config.ts. globals.css los usa como variables.
   const colores = {
-    "--primary": PRIMARY_BLUE,
-    "--dark": DARK_BG,
-    "--accent": ACCENT,
+    "--primary": VERDE_BOSQUE,
+    "--dark": VERDE_BOSQUE,
+    "--accent": VERDE_LIMON,
+    "--oliva": VERDE_OLIVA,
+    "--claro": CREMA,
   } as React.CSSProperties;
 
   return (
-    <html lang="es" className={texto.variable} style={colores}>
+    <html lang="es" className={`${texto.variable} ${titulos.variable}`} style={colores}>
       <body>
         {children}
         <NuevaContrasena />

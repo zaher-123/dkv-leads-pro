@@ -1,10 +1,11 @@
 /* Tokens de diseño. Los colores de marca llegan desde config.ts vía layout.tsx. */
 :root {
-  --primary: #0066cc;
-  --dark: #0a1f3d;
-  --accent: #ffb020;
+  --primary: #0b3b2e;
+  --dark: #0b3b2e;
+  --accent: #8db600;
+  --oliva: #5f7f20;
 
-  --claro: #f5f5f7;
+  --claro: #f6f3ec;
   --blanco: #ffffff;
   --texto: #1d1d1f;
   --texto-suave: #6e6e73;
@@ -38,7 +39,7 @@ body {
   color: var(--texto);
   font-family: var(--fuente);
   font-size: 17px;
-  line-height: 1.5;
+  line-height: 1.6;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
@@ -61,6 +62,7 @@ h1,
 h2,
 h3 {
   margin: 0;
+  font-family: var(--font-titulos), var(--fuente);
   font-weight: 800;
   letter-spacing: -0.04em;
 }
@@ -69,10 +71,16 @@ p {
   margin: 0;
 }
 
+/* Limón solo tiene contraste suficiente sobre bosque: el foco por defecto usa bosque,
+   que es seguro sobre cualquier fondo claro, y las secciones oscuras lo cambian a limón. */
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--primary);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+.seccion--oscuro :focus-visible {
+  outline-color: var(--accent);
 }
 
 .contenedor {
@@ -185,6 +193,23 @@ p {
   margin-top: 8px;
 }
 
+/* Botón secundario de la marca: contorno oliva. Fondo blanco opaco (no transparente):
+   sobre el degradado del hero, el texto oliva mide 4.49:1 contra el fondo real medido en
+   el navegador, justo por debajo del mínimo AA de 4.5:1. Con fondo blanco fijo, el
+   contraste queda en 4.62:1 siempre, sin depender de dónde caiga el botón. */
+.boton--oliva {
+  background: var(--blanco);
+  color: var(--oliva);
+  border-color: var(--oliva);
+}
+
+.boton--oliva:hover {
+  background: var(--oliva);
+  border-color: var(--oliva);
+  color: #fff;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--oliva) 40%, transparent);
+}
+
 /* Secciones alternas: claro / oscuro */
 .seccion {
   padding: 120px 0;
@@ -201,12 +226,25 @@ p {
   color: var(--texto-en-oscuro);
 }
 
-.seccion--oscuro .subtitular {
+.seccion--oscuro .subtitular,
+.seccion--oscuro .hero__legal {
   color: var(--texto-suave-en-oscuro);
 }
 
-.seccion--oscuro .boton {
-  box-shadow: 0 10px 30px color-mix(in srgb, var(--primary) 30%, transparent);
+/* --primary y --dark son el mismo verde bosque: un .boton relleno (primario) se funde
+   con el fondo de una sección oscura si no se invierte. Se invierte a blanco, igual que
+   ya hace .tarjeta--oscuro .tarjeta__accion con los botones de las tarjetas. */
+.seccion--oscuro .boton:not(.boton--oliva) {
+  background: #fff;
+  border-color: #fff;
+  color: var(--dark);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.seccion--oscuro .boton:not(.boton--oliva):hover {
+  background: color-mix(in srgb, #fff 85%, var(--dark));
+  border-color: color-mix(in srgb, #fff 85%, var(--dark));
+  color: var(--dark);
 }
 
 /* Parallax suave: una capa de luz que se desplaza con el scroll. Solo CSS. */
@@ -245,14 +283,16 @@ p {
 
 /* Tipografía */
 .titular {
-  font-size: clamp(2.75rem, 5.5vw, 4.5rem);
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   text-align: center;
 }
 
 .titular--xl {
-  font-size: clamp(2.75rem, 8vw, 6rem);
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 7vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .subtitular {
@@ -323,7 +363,7 @@ p {
 }
 
 .tarjeta--oscuro {
-  background: color-mix(in srgb, var(--dark) 86%, var(--primary));
+  background: var(--dark);
   color: var(--texto-en-oscuro);
 }
 
@@ -389,6 +429,7 @@ p {
 }
 
 .tarjeta--oscuro .tarjeta__accion {
+  background: transparent;
   color: #fff;
   border-color: #fff;
 }
@@ -410,6 +451,7 @@ p {
 }
 
 .cifra__valor {
+  font-family: var(--font-titulos), var(--fuente);
   font-size: clamp(3rem, 6vw, 4.25rem);
   font-weight: 800;
   line-height: 1;
@@ -434,6 +476,7 @@ p {
 
 .paso__num {
   display: block;
+  font-family: var(--font-titulos), var(--fuente);
   font-size: clamp(3.5rem, 6vw, 5rem);
   font-weight: 800;
   line-height: 1;
@@ -535,6 +578,15 @@ p {
   border-bottom-color: var(--error);
 }
 
+/* input[type="date"] no siempre coincide con :placeholder-shown en todos los navegadores:
+   se fuerza la etiqueta a su posición "flotante" para que no se superponga al valor. */
+.campo:has(input[type="date"]) label {
+  top: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
 .grupo--fila {
   display: grid;
   gap: 24px;
@@ -623,8 +675,8 @@ p {
   color: var(--texto);
 }
 
-/* Independencia */
-.independencia__texto {
+/* Confianza */
+.confianza__texto {
   margin: 28px auto 0;
   max-width: 42ch;
   font-size: clamp(1.25rem, 2.4vw, 1.7rem);
@@ -651,8 +703,9 @@ p {
   list-style: none;
   padding: 24px 44px 24px 0;
   position: relative;
+  font-family: var(--font-titulos), var(--fuente);
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 

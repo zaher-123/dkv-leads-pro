@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { leadSchema, normalizarOrigen } from "@/lib/validation";
-import { formOptions } from "@/lib/config";
+import { formOptions, TEXTOS } from "@/lib/config";
 
 type Estado = "inicial" | "enviando" | "ok" | "error";
 
@@ -21,9 +21,12 @@ export default function LeadForm() {
 
     const entrada = {
       nombre: datos.get("nombre"),
+      apellidos: datos.get("apellidos"),
+      localidad: datos.get("localidad"),
+      codigo_postal: datos.get("codigo_postal"),
+      fecha_nacimiento: datos.get("fecha_nacimiento"),
+      email: datos.get("email"),
       whatsapp: datos.get("whatsapp"),
-      edad: datos.get("edad"),
-      cp: datos.get("cp"),
       producto: datos.get("producto"),
       origen,
       consentimiento: datos.get("consentimiento") === "on" ? true : undefined,
@@ -84,18 +87,97 @@ export default function LeadForm() {
   return (
     <form className="formulario" onSubmit={enviar} noValidate>
       <div className="campos">
+        <div className="grupo--fila">
+          <div className="campo">
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              placeholder=" "
+              autoComplete="given-name"
+              aria-invalid={!!errores.nombre}
+              aria-describedby={errores.nombre ? "err-nombre" : undefined}
+            />
+            <label htmlFor="nombre">Nombre</label>
+            {errores.nombre && <p id="err-nombre" className="error">{errores.nombre}</p>}
+          </div>
+
+          <div className="campo">
+            <input
+              id="apellidos"
+              name="apellidos"
+              type="text"
+              placeholder=" "
+              autoComplete="family-name"
+              aria-invalid={!!errores.apellidos}
+              aria-describedby={errores.apellidos ? "err-apellidos" : undefined}
+            />
+            <label htmlFor="apellidos">Apellidos</label>
+            {errores.apellidos && <p id="err-apellidos" className="error">{errores.apellidos}</p>}
+          </div>
+        </div>
+
+        <p className="etiqueta">Dónde vives</p>
+        <div className="grupo--fila">
+          <div className="campo">
+            <input
+              id="localidad"
+              name="localidad"
+              type="text"
+              placeholder=" "
+              autoComplete="address-level2"
+              aria-invalid={!!errores.localidad}
+              aria-describedby={errores.localidad ? "err-localidad" : undefined}
+            />
+            <label htmlFor="localidad">Localidad</label>
+            {errores.localidad && <p id="err-localidad" className="error">{errores.localidad}</p>}
+          </div>
+          <div className="campo">
+            <input
+              id="codigo_postal"
+              name="codigo_postal"
+              type="text"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              maxLength={5}
+              placeholder=" "
+              aria-invalid={!!errores.codigo_postal}
+              aria-describedby={errores.codigo_postal ? "err-codigo_postal" : undefined}
+            />
+            <label htmlFor="codigo_postal">Código postal</label>
+            {errores.codigo_postal && <p id="err-codigo_postal" className="error">{errores.codigo_postal}</p>}
+          </div>
+        </div>
+
         <div className="campo">
           <input
-            id="nombre"
-            name="nombre"
-            type="text"
+            id="fecha_nacimiento"
+            name="fecha_nacimiento"
+            type="date"
+            autoComplete="bday"
             placeholder=" "
-            autoComplete="given-name"
-            aria-invalid={!!errores.nombre}
-            aria-describedby={errores.nombre ? "err-nombre" : undefined}
+            aria-invalid={!!errores.fecha_nacimiento}
+            aria-describedby={errores.fecha_nacimiento ? "err-fecha_nacimiento" : undefined}
           />
-          <label htmlFor="nombre">Nombre</label>
-          {errores.nombre && <p id="err-nombre" className="error">{errores.nombre}</p>}
+          <label htmlFor="fecha_nacimiento">Fecha de nacimiento</label>
+          {errores.fecha_nacimiento && (
+            <p id="err-fecha_nacimiento" className="error">{errores.fecha_nacimiento}</p>
+          )}
+        </div>
+
+        <div className="campo">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            inputMode="email"
+            placeholder=" "
+            autoComplete="email"
+            aria-invalid={!!errores.email}
+            aria-describedby={errores.email ? "err-email" : undefined}
+          />
+          <label htmlFor="email">Correo electrónico</label>
+          {errores.email && <p id="err-email" className="error">{errores.email}</p>}
         </div>
 
         <div className="campo">
@@ -113,41 +195,8 @@ export default function LeadForm() {
           {errores.whatsapp && <p id="err-whatsapp" className="error">{errores.whatsapp}</p>}
         </div>
 
-        <div className="grupo--fila">
-          <div className="campo">
-            <input
-              id="edad"
-              name="edad"
-              type="number"
-              inputMode="numeric"
-              min={18}
-              max={99}
-              placeholder=" "
-              aria-invalid={!!errores.edad}
-              aria-describedby={errores.edad ? "err-edad" : undefined}
-            />
-            <label htmlFor="edad">Edad</label>
-            {errores.edad && <p id="err-edad" className="error">{errores.edad}</p>}
-          </div>
-          <div className="campo">
-            <input
-              id="cp"
-              name="cp"
-              type="text"
-              inputMode="numeric"
-              autoComplete="postal-code"
-              maxLength={5}
-              placeholder=" "
-              aria-invalid={!!errores.cp}
-              aria-describedby={errores.cp ? "err-cp" : undefined}
-            />
-            <label htmlFor="cp">Código postal</label>
-            {errores.cp && <p id="err-cp" className="error">{errores.cp}</p>}
-          </div>
-        </div>
-
         <fieldset className="opciones" aria-describedby={errores.producto ? "err-producto" : undefined}>
-          <legend className="etiqueta">¿Qué te interesa?</legend>
+          <legend className="etiqueta">¿Qué seguro te interesa?</legend>
           {formOptions.map((opcion) => (
             <label key={opcion.value}>
               <input type="radio" name="producto" value={opcion.value} />
@@ -177,8 +226,12 @@ export default function LeadForm() {
         </div>
 
         <button className="boton boton--bloque" type="submit" disabled={estado === "enviando"}>
-          {estado === "enviando" ? "Enviando…" : "Pedir presupuesto"}
+          {estado === "enviando" ? "Enviando…" : TEXTOS.formulario.boton}
         </button>
+
+        <p className="hero__legal" style={{ textAlign: "left", marginTop: 4 }}>
+          {TEXTOS.formulario.microtexto}
+        </p>
 
         {estado === "error" && mensaje && (
           <p className="error" role="alert">{mensaje}</p>
