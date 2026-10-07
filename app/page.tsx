@@ -85,7 +85,6 @@ export default function Home() {
         <section className="seccion seccion--claro" id="seguro-salud">
           <div className="contenedor">
             <h2 className="titular reveal">{TEXTOS.catalogo.titulo}</h2>
-            <p className="subtitular reveal">{TEXTOS.catalogo.subtitulo}</p>
             <p className="nota-precio reveal">{TEXTOS.catalogo.notaPrecio}</p>
 
             <div className="productos productos--estrella">

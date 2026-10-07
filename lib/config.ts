@@ -191,7 +191,7 @@ export const formOptions = [
 // productos (components/IconoProducto.tsx).
 export const barraConfianza = [
   { icono: "Coins", texto: "Asesoramiento experto y cercano", etiqueta: "" },
-  { icono: "Smartphone", texto: "100%", etiqueta: "gestión digital o por WhatsApp" },
+  { icono: "Smartphone", texto: "Asesoramiento ágil por llamada o WhatsApp", etiqueta: "" },
   // Cifra de la red DKV: pendiente de confirmar con DKV antes de publicar.
   { icono: "Stethoscope", texto: "+51.000 / 1.000", etiqueta: "profesionales médicos y centros concertados" },
 ] as const;
@@ -235,8 +235,6 @@ export const TEXTOS = {
   },
   catalogo: {
     titulo: "Lo que más contrato: decesos y salud",
-    subtitulo:
-      "El seguro de decesos es el más solicitado: económico y de trámite fácil. El de salud es mi producto estrella, individual o para autónomos y familias.",
     notaPrecio:
       "El precio siempre es a medida: se calcula según tu edad, tu código postal y lo que necesites de verdad. Nada de tarifas cerradas.",
   },
@@ -255,11 +253,11 @@ export const TEXTOS = {
     lista: [
       {
         pregunta: "¿Me cuesta algo tu asesoramiento?",
-        respuesta: "No. Lo paga DKV directamente si contratas; tú no pagas nada por él.",
+        respuesta: "No, mi asesoramiento y estudio personalizado son 100% gratuitos para ti.",
       },
       {
         pregunta: "¿Puedo cambiarme de seguro si ya tengo uno?",
-        respuesta: "Sí. Te explico cómo hacerlo sin perder continuidad ni carencias.",
+        respuesta: "Sí, te ayudo y te explico cómo gestionar el cambio de forma sencilla.",
       },
       {
         pregunta: "¿Por qué no me das un precio cerrado?",
