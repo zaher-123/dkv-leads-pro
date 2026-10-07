@@ -16,11 +16,9 @@ export const SITE = {
   url: "https://ejemplo.es",
   // Ruta de la foto de Beatriz, por ejemplo "/beatriz.jpg". Vacía = el hueco no se muestra.
   foto: "",
-  // Línea única del pie. Si falta el nº de registro, se muestra "[pendiente]".
+  // Línea única del pie.
   get legalTexto() {
-    return `${this.nombre} · Mediadora de seguros vinculada a DKV · Registro DGSFP nº ${
-      this.registro || "[pendiente]"
-    }`;
+    return `${this.nombre} · Mediadora de seguros vinculada a DKV`;
   },
 };
 
@@ -165,7 +163,7 @@ export const formOptions = [
 // Barra de confianza inmediata, justo bajo el hero. "icono" usa el mismo mapa que los
 // productos (components/IconoProducto.tsx).
 export const barraConfianza = [
-  { icono: "Coins", valor: 0, sufijo: " €", etiqueta: "de coste para ti" },
+  { icono: "Coins", texto: "Asesoramiento experto y cercano", etiqueta: "" },
   { icono: "Smartphone", texto: "100%", etiqueta: "gestión digital o por WhatsApp" },
   // Cifra de la red DKV: pendiente de confirmar con DKV antes de publicar.
   { icono: "Stethoscope", texto: "+51.000 / 1.000", etiqueta: "profesionales médicos y centros concertados" },

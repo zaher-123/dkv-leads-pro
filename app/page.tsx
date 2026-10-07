@@ -1,7 +1,6 @@
 import IconoProducto from "@/components/IconoProducto";
 import LeadForm from "@/components/LeadForm";
 import { SITE, TEXTOS, WHATSAPP_URL, barraConfianza, productos } from "@/lib/config";
-import Contador from "@/components/Contador";
 
 const anio = new Date().getFullYear();
 const destacados = productos.filter((p) => p.destacado);
@@ -54,19 +53,10 @@ export default function Home() {
           <div className="contenedor">
             <ul className="confianza-barra">
               {barraConfianza.map((item) => (
-                <li key={item.etiqueta} className="confianza-item reveal">
+                <li key={item.icono} className="confianza-item reveal">
                   <IconoProducto nombre={item.icono} color="var(--primary)" size={32} />
-                  <p className="confianza-item__valor">
-                    {"valor" in item ? (
-                      <>
-                        <Contador valor={item.valor} />
-                        {item.sufijo}
-                      </>
-                    ) : (
-                      item.texto
-                    )}
-                  </p>
-                  <p className="confianza-item__etiqueta">{item.etiqueta}</p>
+                  <p className="confianza-item__valor">{item.texto}</p>
+                  {item.etiqueta && <p className="confianza-item__etiqueta">{item.etiqueta}</p>}
                 </li>
               ))}
             </ul>
