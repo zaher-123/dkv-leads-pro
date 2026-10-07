@@ -155,7 +155,8 @@ p {
   letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 250ms ease, box-shadow 250ms ease, transform 250ms ease;
+  transition: background-color 250ms ease, box-shadow 250ms ease,
+    transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .boton:hover {
@@ -163,7 +164,13 @@ p {
   border-color: color-mix(in srgb, var(--accent) 85%, #000);
   color: var(--dark);
   text-decoration: none;
+  transform: scale(1.04);
   box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.boton:active {
+  transform: scale(0.98);
+  transition-duration: 100ms;
 }
 
 .boton:disabled {
@@ -350,11 +357,11 @@ p {
   border: 2px solid var(--primary);
   border-radius: var(--radio);
   box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45);
-  transition: transform 400ms ease-out, box-shadow 400ms ease-out;
+  transition: transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 450ms ease-out;
 }
 
 .tarjeta:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.015);
   box-shadow: 0 44px 80px -20px rgba(0, 0, 0, 0.6);
 }
 
@@ -509,13 +516,20 @@ p {
   color: var(--texto);
   font-size: 0.95rem;
   font-weight: 600;
-  transition: border-color 200ms ease, transform 200ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease,
+    transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .tarjeta-compacta:hover {
   border-color: var(--primary);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 28px -12px rgba(0, 0, 0, 0.2);
   text-decoration: none;
+}
+
+.tarjeta-compacta:active {
+  transform: scale(0.98);
+  transition-duration: 100ms;
 }
 
 /* Barra de confianza (bajo el hero) */
@@ -925,6 +939,37 @@ p {
     animation: aparecer linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 35%;
+  }
+
+  /* Cascada (stagger): cada tarjeta o elemento de una fila arranca su rango de scroll un
+     poco más tarde que el anterior, así entran una detrás de otra en vez de a la vez.
+     Mismo mecanismo que .reveal, solo CSS, sin JavaScript. */
+  .productos--estrella .tarjeta:nth-child(2),
+  .productos--compactas .tarjeta-compacta:nth-child(2),
+  .pasos .paso:nth-child(2),
+  .confianza-barra .confianza-item:nth-child(2),
+  .micro-confianza li:nth-child(2),
+  .tarjeta .lista li:nth-child(2) {
+    animation-range: entry 5% entry 40%;
+  }
+
+  .productos--estrella .tarjeta:nth-child(3),
+  .productos--compactas .tarjeta-compacta:nth-child(3),
+  .pasos .paso:nth-child(3),
+  .confianza-barra .confianza-item:nth-child(3),
+  .micro-confianza li:nth-child(3),
+  .tarjeta .lista li:nth-child(3) {
+    animation-range: entry 10% entry 45%;
+  }
+
+  .productos--compactas .tarjeta-compacta:nth-child(4),
+  .faq details:nth-child(4) {
+    animation-range: entry 15% entry 50%;
+  }
+
+  .productos--compactas .tarjeta-compacta:nth-child(5),
+  .faq details:nth-child(5) {
+    animation-range: entry 20% entry 55%;
   }
 }
 
