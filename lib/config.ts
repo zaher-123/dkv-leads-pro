@@ -233,7 +233,8 @@ export const TEXTOS = {
     ],
   },
   catalogo: {
-    titulo: "Lo que más contrato: decesos y salud",
+    titulo:
+      "El precio siempre es a medida: se calcula según tu edad, tu código postal y lo que necesites de verdad. Nada de tarifas cerradas.",
   },
   otrosSeguros: {
     titulo: "Todo lo demás, también en un solo sitio",
