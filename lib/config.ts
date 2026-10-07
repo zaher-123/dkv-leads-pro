@@ -206,9 +206,8 @@ export const TEXTOS = {
     cta: "Hablemos",
   },
   hero: {
-    titular: "¿Tu seguro de salud sube cada año sin motivo? Cámbiate a DKV sin perder antigüedad.",
-    subtitulo:
-      "Analizo tu situación actual, te explico las coberturas reales sin letra pequeña y busco la opción que mejor se adapte a ti. Sin compromiso.",
+    titular: "¿Buscas un seguro de salud real y un asesor que te atienda de verdad?",
+    subtitulo: "Analizamos tu caso al detalle para conseguir la mejor cobertura al mejor precio. Hablemos.",
     boton: "Calcular mi cuota ideal",
     microConfianza: [
       "Asesoramiento 100% gratuito",
