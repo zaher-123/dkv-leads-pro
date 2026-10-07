@@ -441,9 +441,18 @@ p {
   border-color: #fff;
 }
 
-/* Producto estrella: tarjetas más grandes con insignia, en primer plano. */
+/* Nota de precio a medida: cerca del catálogo y del formulario. */
+.nota-precio {
+  margin: 16px auto 0;
+  max-width: 48ch;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+}
+
+/* Catálogo destacado (decesos + salud): tarjetas más grandes con insignia. */
 .productos--estrella {
-  max-width: 920px;
   margin-inline: auto;
 }
 
@@ -470,6 +479,14 @@ p {
   margin-top: 72px;
   font-size: 1.1rem;
   font-weight: 600;
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+.otros-seguros__subtitulo {
+  margin: 8px auto 0;
+  max-width: 50ch;
+  font-size: 0.95rem;
   color: var(--texto-suave);
   text-align: center;
 }
@@ -1043,6 +1060,12 @@ p {
 
   .formulario {
     padding: 52px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .productos--estrella {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

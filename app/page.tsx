@@ -3,8 +3,8 @@ import LeadForm from "@/components/LeadForm";
 import { SITE, TEXTOS, WHATSAPP_URL, barraConfianza, productos } from "@/lib/config";
 
 const anio = new Date().getFullYear();
-const destacados = productos.filter((p) => p.destacado);
-const otros = productos.filter((p) => !p.destacado);
+const destacados = productos.filter((p) => p.tipo === "gancho" || p.tipo === "estrella");
+const otros = productos.filter((p) => p.tipo === "resto");
 
 export default function Home() {
   return (
@@ -81,16 +81,17 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 4. Producto estrella: Salud, en primer plano */}
+        {/* 4. Catálogo: decesos (gancho) y salud (estrella) en primer plano, el resto abajo */}
         <section className="seccion seccion--claro" id="seguro-salud">
           <div className="contenedor">
-            <h2 className="titular reveal">{TEXTOS.productoEstrella.titulo}</h2>
-            <p className="subtitular reveal">{TEXTOS.productoEstrella.subtitulo}</p>
+            <h2 className="titular reveal">{TEXTOS.catalogo.titulo}</h2>
+            <p className="subtitular reveal">{TEXTOS.catalogo.subtitulo}</p>
+            <p className="nota-precio reveal">{TEXTOS.catalogo.notaPrecio}</p>
 
             <div className="productos productos--estrella">
               {destacados.map((producto) => (
                 <article key={producto.id} className="tarjeta tarjeta--claro tarjeta--estrella reveal">
-                  <span className="tarjeta__insignia">Seguro estrella</span>
+                  <span className="tarjeta__insignia">{producto.insignia}</span>
                   <IconoProducto nombre={producto.icono} color={producto.colorIcono} />
                   <h3>{producto.nombre}</h3>
                   <p>{producto.descripcion}</p>
@@ -107,6 +108,7 @@ export default function Home() {
             </div>
 
             <h3 className="otros-seguros__titulo">{TEXTOS.otrosSeguros.titulo}</h3>
+            <p className="otros-seguros__subtitulo">{TEXTOS.otrosSeguros.subtitulo}</p>
             <div className="productos productos--compactas">
               {otros.map((producto) => (
                 <a key={producto.id} href="#presupuesto" className="tarjeta-compacta reveal">
@@ -122,6 +124,7 @@ export default function Home() {
         <section className="seccion seccion--claro" id="presupuesto">
           <div className="contenedor">
             <h2 className="titular reveal">{TEXTOS.formulario.titulo}</h2>
+            <p className="nota-precio reveal">{TEXTOS.formulario.notaPrecio}</p>
             <div className="reveal formulario-wrap">
               <LeadForm />
             </div>

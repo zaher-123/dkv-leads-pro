@@ -1,6 +1,7 @@
 import {
   Ambulance,
   BriefcaseMedical,
+  Car,
   Coins,
   Flower2,
   House,
@@ -24,6 +25,7 @@ const ICONOS: Record<string, LucideIcon> = {
   Coins,
   Smartphone,
   Stethoscope,
+  Car,
 };
 
 export default function IconoProducto({

@@ -34,19 +34,44 @@ export function precioTexto(price: number | null) {
   return price === null ? "Presupuesto personalizado" : `Desde ${price} €/mes`;
 }
 
-// Productos. "destacado" marca el producto estrella (Salud), que se pinta grande y primero;
-// el resto se pinta en una franja compacta, en segundo plano. price: no se muestra en la
-// landing actual, se conserva por si se reactiva.
+// Catálogo completo. "tipo" decide dónde y cómo se pinta cada producto:
+// - "gancho": el producto de entrada, económico y de trámite fácil (Decesos). Se pinta
+//   grande, junto a los de salud, con su propia insignia.
+// - "estrella": el producto principal (Salud). Se pinta grande, con insignia.
+// - "resto": el resto del catálogo, en una franja compacta en segundo plano, para que el
+//   cliente vea que se cubren todas sus necesidades en un solo sitio.
+// price: no se muestra en la landing actual, se conserva por si se reactiva.
+// Automóvil y Comercio no tiene value en formOptions/CHECK de Postgres a propósito: se
+// gestiona con colaboradores especializados, fuera del flujo de leads de salud/DKV; su
+// tarjeta enlaza igualmente al formulario, pero no preselecciona ningún producto.
 export const productos = [
+  {
+    id: "decesos",
+    nombre: "Decesos",
+    descripcion:
+      "El seguro más solicitado: económico, con muy buena aceptación, coberturas completas y un trámite fácil y rápido.",
+    icono: "Flower2",
+    colorIcono: VERDE_BOSQUE,
+    fondo: "claro",
+    tipo: "gancho",
+    insignia: "El más solicitado",
+    price: null as number | null,
+    lista: [
+      "Cuota fija, mensual o anual, desde un precio muy accesible",
+      "Servicio funerario completo según póliza",
+      "Trámite y alta muy sencillos",
+    ],
+  },
   {
     id: "salud_individual",
     nombre: "Salud individual",
     descripcion:
-      "Cobertura médica completa para una sola persona, con acceso directo a especialistas y sin listas de espera.",
+      "Cobertura médica completa para una sola persona, con acceso directo a especialistas y sin listas de espera. Ideal también si vienes de fuera y quieres evitar las esperas de la sanidad pública.",
     icono: "User",
     colorIcono: VERDE_BOSQUE,
     fondo: "claro",
-    destacado: true,
+    tipo: "estrella",
+    insignia: "Seguro estrella",
     price: null as number | null,
     lista: [
       "Red de médicos y centros concertados",
@@ -62,7 +87,8 @@ export const productos = [
     icono: "Users",
     colorIcono: VERDE_BOSQUE,
     fondo: "claro",
-    destacado: true,
+    tipo: "estrella",
+    insignia: "Seguro estrella",
     price: null as number | null,
     lista: [
       "Red de médicos y centros concertados",
@@ -71,32 +97,17 @@ export const productos = [
     ],
   },
   {
-    id: "decesos",
-    nombre: "Decesos",
-    descripcion: "Servicio funerario con una cuota fija que no depende de tu salud.",
-    icono: "Flower2",
-    colorIcono: VERDE_BOSQUE,
-    fondo: "claro",
-    destacado: false,
-    price: null as number | null,
-    lista: [
-      "Servicio funerario según póliza",
-      "Cuota fija, mensual o anual",
-      "Asistencia y gestiones tras el fallecimiento",
-    ],
-  },
-  {
     id: "renta",
-    nombre: "Renta y baja médica",
-    descripcion: "Protege tus ingresos si una enfermedad o un accidente te impide trabajar.",
+    nombre: "Vida y Renta",
+    descripcion: "Protección si no puedes trabajar por una baja médica o laboral.",
     icono: "BriefcaseMedical",
     colorIcono: VERDE_BOSQUE,
     fondo: "claro",
-    destacado: false,
+    tipo: "resto",
     price: null as number | null,
     lista: [
       "Renta mensual según póliza",
-      "Cobertura de baja médica según póliza",
+      "Cobertura de baja médica o laboral según póliza",
       "Revisión de condiciones antes de contratar",
     ],
   },
@@ -107,7 +118,7 @@ export const productos = [
     icono: "Smile",
     colorIcono: VERDE_BOSQUE,
     fondo: "claro",
-    destacado: false,
+    tipo: "resto",
     price: null as number | null,
     lista: [
       "Revisiones y limpiezas",
@@ -122,7 +133,7 @@ export const productos = [
     icono: "Ambulance",
     colorIcono: VERDE_BOSQUE,
     fondo: "claro",
-    destacado: false,
+    tipo: "resto",
     price: null as number | null,
     lista: [
       "Indemnización por invalidez permanente según póliza",
@@ -137,7 +148,7 @@ export const productos = [
     icono: "House",
     colorIcono: VERDE_BOSQUE,
     fondo: "claro",
-    destacado: false,
+    tipo: "resto",
     price: null as number | null,
     lista: [
       "Daños en el hogar según póliza",
@@ -145,15 +156,31 @@ export const productos = [
       "Asistencia en el hogar",
     ],
   },
+  {
+    id: "automovil_comercio",
+    nombre: "Automóvil y Comercio",
+    descripcion: "Seguro de coche o de tu negocio, gestionado con colaboradores especializados.",
+    icono: "Car",
+    colorIcono: VERDE_BOSQUE,
+    fondo: "claro",
+    tipo: "resto",
+    price: null as number | null,
+    lista: [
+      "Automóvil: terceros, terceros ampliado o todo riesgo según necesites",
+      "Comercio: responsabilidad civil y daños al local",
+      "Gestionado con colaboradores especializados en cada ramo",
+    ],
+  },
 ] as const;
 
 // Opciones del selector del formulario. El valor se guarda en la base de datos
 // y coincide con el CHECK de Postgres: no cambiar estos "value" sin migrar la tabla.
+// "Automóvil y Comercio" no aparece aquí a propósito (ver nota sobre productos arriba).
 export const formOptions = [
   { value: "salud_individual", label: "Salud individual" },
   { value: "salud_familiar", label: "Salud autónomos y familias" },
   { value: "decesos", label: "Decesos" },
-  { value: "renta", label: "Renta y baja médica" },
+  { value: "renta", label: "Vida y Renta" },
   { value: "dental", label: "Dental" },
   { value: "accidentes", label: "Accidentes" },
   { value: "hogar", label: "Hogar" },
@@ -206,15 +233,20 @@ export const TEXTOS = {
       },
     ],
   },
-  productoEstrella: {
-    titulo: "Nuestro seguro estrella: Salud",
-    subtitulo: "La cobertura que más contrato, individual o para autónomos y familias. El resto de seguros, aquí abajo.",
+  catalogo: {
+    titulo: "Lo que más contrato: decesos y salud",
+    subtitulo:
+      "El seguro de decesos es el más solicitado: económico y de trámite fácil. El de salud es mi producto estrella, individual o para autónomos y familias.",
+    notaPrecio:
+      "El precio siempre es a medida: se calcula según tu edad, tu código postal y lo que necesites de verdad. Nada de tarifas cerradas.",
   },
   otrosSeguros: {
-    titulo: "También trabajo estos seguros",
+    titulo: "Todo lo demás, también en un solo sitio",
+    subtitulo: "Vida y renta, dental, accidentes, hogar, y automóvil y comercio con colaboradores especializados.",
   },
   formulario: {
     titulo: "Pide tu estudio de salud personalizado en 1 minuto",
+    notaPrecio: "El precio es siempre a medida, según tu edad, tu código postal y lo que necesites.",
     boton: "Solicitar mi comparativa sin compromiso",
     notaSeguridad: "Tus datos están seguros. No compartimos tu información.",
   },
@@ -228,6 +260,11 @@ export const TEXTOS = {
       {
         pregunta: "¿Puedo cambiarme de seguro si ya tengo uno?",
         respuesta: "Sí. Te explico cómo hacerlo sin perder continuidad ni carencias.",
+      },
+      {
+        pregunta: "¿Por qué no me das un precio cerrado?",
+        respuesta:
+          "Porque el precio depende de tu edad, tu código postal y lo que necesites de verdad. Te doy un presupuesto a medida, no una tarifa genérica.",
       },
       {
         pregunta: "¿Qué datos necesitas para empezar?",
