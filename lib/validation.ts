@@ -51,13 +51,13 @@ export const leadSchema = z.object({
     .trim()
     .toLowerCase()
     .email("Introduce un correo electrónico válido."),
-  whatsapp: z
+  telefono: z
     .string()
     .trim()
     .transform((v) => v.replace(/[\s.-]/g, ""))
     .refine((v) => /^(?:\+?34)?[67]\d{8}$/.test(v), "Introduce un móvil español válido."),
   producto: z.enum(PRODUCTOS, { message: "Elige un seguro." }),
-  origen: z.enum(ORIGENES).catch("directo"),
+  utm_source: z.enum(ORIGENES).catch("directo"),
   consentimiento: z.literal(true, {
     message: "Necesitamos tu consentimiento para contactarte.",
   }),
@@ -69,12 +69,12 @@ export type LeadInput = z.input<typeof leadSchema>;
 export type LeadData = z.output<typeof leadSchema>;
 
 // Normaliza el móvil a 9 dígitos, sin prefijo.
-export function normalizarWhatsapp(valor: string) {
+export function normalizarTelefono(valor: string) {
   return valor.replace(/\D/g, "").replace(/^34/, "").slice(-9);
 }
 
-// Convierte utm_source en uno de los orígenes permitidos.
-export function normalizarOrigen(valor: string | null | undefined) {
+// Convierte el utm_source de la URL en uno de los orígenes permitidos.
+export function normalizarUtmSource(valor: string | null | undefined) {
   const v = (valor ?? "").trim().toLowerCase();
   if (v.includes("instagram") || v === "ig") return "instagram";
   if (v.includes("linkedin")) return "linkedin";

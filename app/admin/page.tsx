@@ -17,9 +17,9 @@ type Lead = {
   codigo_postal: string;
   fecha_nacimiento: string;
   email: string;
-  whatsapp: string;
+  telefono: string;
   producto: string;
-  origen: string;
+  utm_source: string;
   estado: Estado;
   created_at: string;
 };
@@ -66,7 +66,7 @@ export default function Admin() {
     supabaseBrowser
       .from("leads")
       .select(
-        "id, nombre, apellidos, localidad, codigo_postal, fecha_nacimiento, email, whatsapp, producto, origen, estado, created_at",
+        "id, nombre, apellidos, localidad, codigo_postal, fecha_nacimiento, email, telefono, producto, utm_source, estado, created_at",
       )
       .order("created_at", { ascending: false })
       .then(({ data, error: errorCarga }) => {
@@ -202,14 +202,14 @@ export default function Admin() {
                 <th>Fecha</th>
                 <th>Nombre</th>
                 <th>Apellidos</th>
-                <th>WhatsApp</th>
+                <th>Teléfono</th>
                 <th>Email</th>
                 <th>Localidad</th>
                 <th>CP</th>
                 <th>Nacimiento</th>
                 <th>Edad</th>
                 <th>Producto</th>
-                <th>Origen</th>
+                <th>UTM</th>
                 <th>Estado</th>
               </tr>
             </thead>
@@ -220,8 +220,8 @@ export default function Admin() {
                   <td>{l.nombre}</td>
                   <td>{l.apellidos}</td>
                   <td>
-                    <a href={`https://wa.me/34${l.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                      {l.whatsapp}
+                    <a href={`https://wa.me/34${l.telefono}`} target="_blank" rel="noopener noreferrer">
+                      {l.telefono}
                     </a>
                   </td>
                   <td>
@@ -232,7 +232,7 @@ export default function Admin() {
                   <td>{new Date(`${l.fecha_nacimiento}T00:00:00`).toLocaleDateString("es-ES")}</td>
                   <td>{calcularEdad(l.fecha_nacimiento)}</td>
                   <td>{ETIQUETA_PRODUCTO[l.producto] ?? l.producto}</td>
-                  <td>{l.origen}</td>
+                  <td>{l.utm_source}</td>
                   <td>
                     <select
                       aria-label={`Estado de ${l.nombre}`}

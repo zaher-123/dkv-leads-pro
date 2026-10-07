@@ -1,6 +1,18 @@
-import { BriefcaseMedical, Ambulance, Flower2, House, Smile, User, Users, type LucideIcon } from "lucide-react";
+import {
+  Ambulance,
+  BriefcaseMedical,
+  Coins,
+  Flower2,
+  House,
+  Smartphone,
+  Smile,
+  Stethoscope,
+  User,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 
-// Nombres de icono que pueden aparecer en config.ts (productos[].icono).
+// Nombres de icono que pueden aparecer en config.ts (productos[].icono, barraConfianza[].icono).
 const ICONOS: Record<string, LucideIcon> = {
   Users,
   User,
@@ -9,10 +21,21 @@ const ICONOS: Record<string, LucideIcon> = {
   Smile,
   Ambulance,
   House,
+  Coins,
+  Smartphone,
+  Stethoscope,
 };
 
-export default function IconoProducto({ nombre, color }: { nombre: string; color: string }) {
+export default function IconoProducto({
+  nombre,
+  color,
+  size = 48,
+}: {
+  nombre: string;
+  color: string;
+  size?: number;
+}) {
   const Icono = ICONOS[nombre];
   if (!Icono) return null;
-  return <Icono size={48} color={color} strokeWidth={1.75} aria-hidden="true" />;
+  return <Icono size={size} color={color} strokeWidth={1.75} aria-hidden="true" />;
 }

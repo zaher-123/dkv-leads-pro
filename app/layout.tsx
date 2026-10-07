@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
-import { CREMA, SITE, TEXTOS, VERDE_BOSQUE, VERDE_LIMON, VERDE_OLIVA } from "@/lib/config";
+import { CREMA, SITE, TEXTOS, VERDE_BOSQUE, VERDE_LIMON } from "@/lib/config";
 import NuevaContrasena from "@/components/NuevaContrasena";
 import "./globals.css";
 
@@ -37,7 +37,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     "--primary": VERDE_BOSQUE,
     "--dark": VERDE_BOSQUE,
     "--accent": VERDE_LIMON,
-    "--oliva": VERDE_OLIVA,
     "--claro": CREMA,
   } as React.CSSProperties;
 

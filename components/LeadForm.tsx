@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { leadSchema, normalizarOrigen } from "@/lib/validation";
+import { MessageCircle } from "lucide-react";
+import { leadSchema, normalizarUtmSource } from "@/lib/validation";
 import { formOptions, TEXTOS } from "@/lib/config";
 
 type Estado = "inicial" | "enviando" | "ok" | "error";
@@ -17,7 +18,7 @@ export default function LeadForm() {
     const datos = new FormData(form);
 
     // utm_source llega en la URL de la campaña. Se lee al enviar, no al pintar.
-    const origen = normalizarOrigen(new URLSearchParams(window.location.search).get("utm_source"));
+    const utm_source = normalizarUtmSource(new URLSearchParams(window.location.search).get("utm_source"));
 
     const entrada = {
       nombre: datos.get("nombre"),
@@ -26,9 +27,9 @@ export default function LeadForm() {
       codigo_postal: datos.get("codigo_postal"),
       fecha_nacimiento: datos.get("fecha_nacimiento"),
       email: datos.get("email"),
-      whatsapp: datos.get("whatsapp"),
+      telefono: datos.get("telefono"),
       producto: datos.get("producto"),
-      origen,
+      utm_source,
       consentimiento: datos.get("consentimiento") === "on" ? true : undefined,
       web: datos.get("web"),
     };
@@ -117,7 +118,53 @@ export default function LeadForm() {
           </div>
         </div>
 
-        <p className="etiqueta">Dónde vives</p>
+        <div className="campo campo--con-icono">
+          <MessageCircle className="campo__icono" aria-hidden="true" size={20} />
+          <input
+            id="telefono"
+            name="telefono"
+            type="tel"
+            inputMode="tel"
+            placeholder=" "
+            autoComplete="tel"
+            aria-invalid={!!errores.telefono}
+            aria-describedby={errores.telefono ? "err-telefono" : undefined}
+          />
+          <label htmlFor="telefono">Teléfono (WhatsApp)</label>
+          {errores.telefono && <p id="err-telefono" className="error">{errores.telefono}</p>}
+        </div>
+
+        <div className="campo">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            inputMode="email"
+            placeholder=" "
+            autoComplete="email"
+            aria-invalid={!!errores.email}
+            aria-describedby={errores.email ? "err-email" : undefined}
+          />
+          <label htmlFor="email">Correo electrónico</label>
+          {errores.email && <p id="err-email" className="error">{errores.email}</p>}
+        </div>
+
+        <div className="campo">
+          <input
+            id="fecha_nacimiento"
+            name="fecha_nacimiento"
+            type="date"
+            autoComplete="bday"
+            placeholder=" "
+            aria-invalid={!!errores.fecha_nacimiento}
+            aria-describedby={errores.fecha_nacimiento ? "err-fecha_nacimiento" : undefined}
+          />
+          <label htmlFor="fecha_nacimiento">Fecha de nacimiento</label>
+          {errores.fecha_nacimiento && (
+            <p id="err-fecha_nacimiento" className="error">{errores.fecha_nacimiento}</p>
+          )}
+        </div>
+
         <div className="grupo--fila">
           <div className="campo">
             <input
@@ -147,52 +194,6 @@ export default function LeadForm() {
             <label htmlFor="codigo_postal">Código postal</label>
             {errores.codigo_postal && <p id="err-codigo_postal" className="error">{errores.codigo_postal}</p>}
           </div>
-        </div>
-
-        <div className="campo">
-          <input
-            id="fecha_nacimiento"
-            name="fecha_nacimiento"
-            type="date"
-            autoComplete="bday"
-            placeholder=" "
-            aria-invalid={!!errores.fecha_nacimiento}
-            aria-describedby={errores.fecha_nacimiento ? "err-fecha_nacimiento" : undefined}
-          />
-          <label htmlFor="fecha_nacimiento">Fecha de nacimiento</label>
-          {errores.fecha_nacimiento && (
-            <p id="err-fecha_nacimiento" className="error">{errores.fecha_nacimiento}</p>
-          )}
-        </div>
-
-        <div className="campo">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            inputMode="email"
-            placeholder=" "
-            autoComplete="email"
-            aria-invalid={!!errores.email}
-            aria-describedby={errores.email ? "err-email" : undefined}
-          />
-          <label htmlFor="email">Correo electrónico</label>
-          {errores.email && <p id="err-email" className="error">{errores.email}</p>}
-        </div>
-
-        <div className="campo">
-          <input
-            id="whatsapp"
-            name="whatsapp"
-            type="tel"
-            inputMode="tel"
-            placeholder=" "
-            autoComplete="tel"
-            aria-invalid={!!errores.whatsapp}
-            aria-describedby={errores.whatsapp ? "err-whatsapp" : undefined}
-          />
-          <label htmlFor="whatsapp">Móvil con WhatsApp</label>
-          {errores.whatsapp && <p id="err-whatsapp" className="error">{errores.whatsapp}</p>}
         </div>
 
         <fieldset className="opciones" aria-describedby={errores.producto ? "err-producto" : undefined}>
@@ -229,9 +230,7 @@ export default function LeadForm() {
           {estado === "enviando" ? "Enviando…" : TEXTOS.formulario.boton}
         </button>
 
-        <p className="hero__legal" style={{ textAlign: "left", marginTop: 4 }}>
-          {TEXTOS.formulario.microtexto}
-        </p>
+        <p className="formulario__nota-seguridad">{TEXTOS.formulario.notaSeguridad}</p>
 
         {estado === "error" && mensaje && (
           <p className="error" role="alert">{mensaje}</p>

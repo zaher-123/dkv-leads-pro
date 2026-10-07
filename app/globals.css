@@ -3,7 +3,6 @@
   --primary: #0b3b2e;
   --dark: #0b3b2e;
   --accent: #8db600;
-  --oliva: #5f7f20;
 
   --claro: #f6f3ec;
   --blanco: #ffffff;
@@ -137,20 +136,22 @@ p {
   }
 }
 
-/* Botones */
+/* Botones. Verde limón es el único color de los botones de acción (bosque sobre limón =
+   5.25:1, AA de sobra): el relleno limón contrasta igual contra fondo claro u oscuro, así
+   que el botón nunca se funde con la sección que lo rodea. */
 .boton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 48px;
   padding: 0 28px;
-  border: 2px solid var(--primary);
+  border: 2px solid var(--accent);
   border-radius: 999px;
-  background: var(--primary);
-  color: #fff;
+  background: var(--accent);
+  color: var(--dark);
   font: inherit;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
@@ -158,11 +159,11 @@ p {
 }
 
 .boton:hover {
-  background: color-mix(in srgb, var(--primary) 78%, #000);
-  border-color: color-mix(in srgb, var(--primary) 78%, #000);
-  color: #fff;
+  background: color-mix(in srgb, var(--accent) 85%, #000);
+  border-color: color-mix(in srgb, var(--accent) 85%, #000);
+  color: var(--dark);
   text-decoration: none;
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--primary) 40%, transparent);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .boton:disabled {
@@ -176,9 +177,16 @@ p {
   font-size: 0.85rem;
 }
 
+.boton--grande {
+  min-height: 60px;
+  padding: 0 40px;
+  font-size: 1.15rem;
+}
+
 .boton--linea {
   background: transparent;
   color: var(--primary);
+  border-color: var(--primary);
 }
 
 .boton--linea:hover {
@@ -191,23 +199,6 @@ p {
 .boton--bloque {
   width: 100%;
   margin-top: 8px;
-}
-
-/* Botón secundario de la marca: contorno oliva. Fondo blanco opaco (no transparente):
-   sobre el degradado del hero, el texto oliva mide 4.49:1 contra el fondo real medido en
-   el navegador, justo por debajo del mínimo AA de 4.5:1. Con fondo blanco fijo, el
-   contraste queda en 4.62:1 siempre, sin depender de dónde caiga el botón. */
-.boton--oliva {
-  background: var(--blanco);
-  color: var(--oliva);
-  border-color: var(--oliva);
-}
-
-.boton--oliva:hover {
-  background: var(--oliva);
-  border-color: var(--oliva);
-  color: #fff;
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--oliva) 40%, transparent);
 }
 
 /* Secciones alternas: claro / oscuro */
@@ -229,22 +220,6 @@ p {
 .seccion--oscuro .subtitular,
 .seccion--oscuro .hero__legal {
   color: var(--texto-suave-en-oscuro);
-}
-
-/* --primary y --dark son el mismo verde bosque: un .boton relleno (primario) se funde
-   con el fondo de una sección oscura si no se invierte. Se invierte a blanco, igual que
-   ya hace .tarjeta--oscuro .tarjeta__accion con los botones de las tarjetas. */
-.seccion--oscuro .boton:not(.boton--oliva) {
-  background: #fff;
-  border-color: #fff;
-  color: var(--dark);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.seccion--oscuro .boton:not(.boton--oliva):hover {
-  background: color-mix(in srgb, #fff 85%, var(--dark));
-  border-color: color-mix(in srgb, #fff 85%, var(--dark));
-  color: var(--dark);
 }
 
 /* Parallax suave: una capa de luz que se desplaza con el scroll. Solo CSS. */
@@ -331,6 +306,32 @@ p {
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--texto-suave);
+}
+
+/* Micro-confianza del hero: lista de garantías con check. */
+.micro-confianza {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.micro-confianza li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.micro-confianza li::before {
+  content: "✓";
+  color: var(--primary);
+  font-weight: 800;
 }
 
 /* Productos */
@@ -440,30 +441,100 @@ p {
   border-color: #fff;
 }
 
-/* Cifras */
-.cifras {
+/* Producto estrella: tarjetas más grandes con insignia, en primer plano. */
+.productos--estrella {
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+.tarjeta--estrella {
+  padding: 52px 40px;
+  border-width: 3px;
+  border-color: var(--accent);
+}
+
+.tarjeta__insignia {
+  align-self: flex-start;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Resto de seguros: franja compacta en segundo plano, debajo del producto estrella. */
+.otros-seguros__titulo {
+  margin-top: 72px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+.productos--compactas {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.tarjeta-compacta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--linea);
+  border-radius: 16px;
+  background: var(--blanco);
+  color: var(--texto);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+
+.tarjeta-compacta:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* Barra de confianza (bajo el hero) */
+.seccion--compacta {
+  padding: 56px 0;
+}
+
+.confianza-barra {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 56px;
+  gap: 40px;
   text-align: center;
 }
 
-.cifra__valor {
+.confianza-item {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.confianza-item__valor {
   font-family: var(--font-titulos), var(--fuente);
-  font-size: clamp(3rem, 6vw, 4.25rem);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
   color: var(--primary);
 }
 
-.cifra__etiqueta {
-  margin-top: 12px;
-  font-size: 1.05rem;
+.confianza-item__etiqueta {
+  font-size: 1rem;
   font-weight: 500;
   color: var(--texto-suave);
+  max-width: 26ch;
 }
 
 /* Pasos */
@@ -515,6 +586,14 @@ p {
   font-size: 1.6rem;
 }
 
+.formulario__nota-seguridad {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+  text-align: left;
+}
+
 .campos {
   display: grid;
   gap: 20px;
@@ -523,6 +602,28 @@ p {
 .campo {
   position: relative;
   padding-top: 22px;
+}
+
+/* Campo con icono decorativo (teléfono/WhatsApp). */
+.campo--con-icono {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: end;
+  gap: 10px;
+}
+
+.campo--con-icono input {
+  grid-column: 2;
+}
+
+.campo--con-icono label {
+  left: 34px;
+}
+
+.campo__icono {
+  grid-column: 1;
+  color: var(--primary);
+  padding-bottom: 12px;
 }
 
 .campo input {
@@ -675,16 +776,22 @@ p {
   color: var(--texto);
 }
 
-/* Confianza */
-.confianza__texto {
-  margin: 28px auto 0;
-  max-width: 42ch;
-  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.02em;
-  color: var(--texto-suave-en-oscuro);
-  text-align: center;
+/* Botón flotante de WhatsApp: fijo abajo, solo en móvil. */
+.whatsapp-flotante {
+  display: none;
+}
+
+@media (max-width: 719px) {
+  .whatsapp-flotante {
+    display: flex;
+    position: fixed;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 20;
+    width: auto;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  }
 }
 
 /* Preguntas frecuentes */
@@ -909,17 +1016,22 @@ p {
 }
 
 /* Responsive */
+@media (min-width: 480px) {
+  .productos--compactas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (min-width: 720px) {
-  .productos {
-    grid-template-columns: 1fr 1fr;
+  .productos--estrella {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  /* La séptima tarjeta ocupa el ancho completo para no dejar un hueco */
-  .productos > :last-child:nth-child(odd) {
-    grid-column: 1 / -1;
+  .productos--compactas {
+    grid-template-columns: repeat(5, 1fr);
   }
 
-  .cifras {
+  .confianza-barra {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
   }

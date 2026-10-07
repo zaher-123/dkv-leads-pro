@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { leadSchema, normalizarWhatsapp } from "@/lib/validation";
+import { leadSchema, normalizarTelefono } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
@@ -37,9 +37,9 @@ export async function POST(request: Request) {
     codigo_postal: parsed.data.codigo_postal,
     fecha_nacimiento: parsed.data.fecha_nacimiento,
     email: parsed.data.email,
-    whatsapp: normalizarWhatsapp(parsed.data.whatsapp),
+    telefono: normalizarTelefono(parsed.data.telefono),
     producto: parsed.data.producto,
-    origen: parsed.data.origen,
+    utm_source: parsed.data.utm_source,
     consentimiento: parsed.data.consentimiento,
   });
 
