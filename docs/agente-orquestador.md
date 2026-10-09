@@ -39,6 +39,7 @@ aprobación previa.
 - [Agente B2C — Prospección y atención a particulares y familias](./agente-b2c-particulares.md)
 - [Agente de Triaje, Calificación y Seguimiento por WhatsApp](./agente-triaje-whatsapp.md)
 - [Agente de LinkedIn — Contenidos y networking](./agente-linkedin.md)
+- [Agente Experto en Conversión Web (UX / CRO)](./agente-web-conversion.md)
 
 Todos ellos reportan al Agente Orquestador: ningún contenido, mensaje o secuencia que
 produzcan se publica o se envía sin su validación previa.
